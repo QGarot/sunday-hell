@@ -22,14 +22,14 @@ public class Match implements IMatch {
     public void updateChampionshipScores() {
         // Update scores
         if (this.getScoreA() > this.getScoreB()) {
-            this.getTeamA().updateChampionshipScore(WinState.WIN);
-            this.getTeamB().updateChampionshipScore(WinState.LOSE);
+            this.getTeamA().updateChampionshipScore(WinState.WIN, this.getScoreA());
+            this.getTeamB().updateChampionshipScore(WinState.LOSE, this.getScoreB());
         } else if (this.getScoreA() == this.getScoreB()) {
-            this.getTeamA().updateChampionshipScore(WinState.DRAW);
-            this.getTeamB().updateChampionshipScore(WinState.DRAW);
+            this.getTeamA().updateChampionshipScore(WinState.DRAW, this.getScoreA());
+            this.getTeamB().updateChampionshipScore(WinState.DRAW, this.getScoreB());
         } else {
-            this.getTeamA().updateChampionshipScore(WinState.LOSE);
-            this.getTeamB().updateChampionshipScore(WinState.WIN);
+            this.getTeamA().updateChampionshipScore(WinState.LOSE, this.getScoreA());
+            this.getTeamB().updateChampionshipScore(WinState.WIN, this.getScoreB());
         }
 
         // Bonus

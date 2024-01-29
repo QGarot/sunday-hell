@@ -9,8 +9,9 @@ public abstract class Team {
     /**
      * Update the championship score according to the win state and the type of the team.
      * @param winState: 2 if the team wins, 1 if it draws, 0 if it loses.
+     * @param teamScore: the championship score update can depend on the team score (int)
      */
-    public abstract void updateChampionshipScore(WinState winState);
+    public abstract void updateChampionshipScore(WinState winState, int teamScore);
 
     /**
      * Get the championship score

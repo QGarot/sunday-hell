@@ -12,7 +12,7 @@ public class FootballTeam extends Team {
     }
 
     @Override
-    public void updateChampionshipScore(WinState winState) {
+    public void updateChampionshipScore(WinState winState, int teamScore) {
         if (winState == WinState.WIN) {
             this.setChampionshipScore(this.getChampionshipScore() + winPoints);
         } else if (winState == WinState.DRAW) {
