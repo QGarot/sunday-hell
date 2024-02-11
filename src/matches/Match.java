@@ -20,6 +20,12 @@ public class Match implements IMatch {
 
     @Override
     public void updateChampionshipScores() {
+        // check match validity
+        if (this.getTeamA().getClass() != this.getTeamB().getClass()) {
+            System.out.println("No compatibility");
+            return;
+        }
+
         // Update scores
         if (this.getScoreA() > this.getScoreB()) {
             this.getTeamA().updateChampionshipScore(WinState.WIN, this.getScoreA());
