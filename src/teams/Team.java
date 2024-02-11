@@ -5,6 +5,7 @@ import teams.enums.WinState;
 public abstract class Team {
 
     private int championshipScore;
+    private String name;
 
     /**
      * Update the championship score according to the win state and the type of the team.
@@ -27,5 +28,21 @@ public abstract class Team {
      */
     public void setChampionshipScore(int score) {
         this.championshipScore = score;
+    }
+
+    /**
+     * Get the name
+     * @return name: name of the team
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Set a new name
+     * @param name: new name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 }

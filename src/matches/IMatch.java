@@ -31,4 +31,9 @@ public interface IMatch {
      * @return the score (int)
      */
     int getScoreB();
+
+    /**
+     * Display teams information before and after the match
+     */
+    void displayInformation();
 }
