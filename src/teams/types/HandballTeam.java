@@ -4,7 +4,7 @@ import teams.Team;
 import teams.enums.WinState;
 
 public class HandballTeam extends Team {
-    public final static int winPoints = 3;
+    public final static int winPoints = 2;
     public final static int drawPoints = 1;
 
     public HandballTeam() {
