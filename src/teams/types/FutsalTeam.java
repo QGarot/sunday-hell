@@ -11,8 +11,9 @@ public class FutsalTeam extends Team implements IAttackBonus {
     private final static int attackBonus = 1;
     private final static int minScoreForBonus = 5;
 
-    public FutsalTeam() {
+    public FutsalTeam(String name) {
         this.setChampionshipScore(0);
+        this.setName(name);
     }
 
     @Override

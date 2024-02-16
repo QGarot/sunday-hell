@@ -7,8 +7,9 @@ public class FootballTeam extends Team {
     private final static int winPoints = 3;
     private final static int drawPoints = 1;
 
-    public FootballTeam() {
+    public FootballTeam(String name) {
         this.setChampionshipScore(0);
+        this.setName(name);
     }
 
     @Override

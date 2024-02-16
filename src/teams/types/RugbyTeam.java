@@ -14,8 +14,9 @@ public class RugbyTeam extends Team implements IAttackBonus, IDefenseBonus {
     private final static int minScoreForAttackBonus = 30;
     private final static int maxOppScoreForDefenseBonus = 10;
 
-    public RugbyTeam() {
+    public RugbyTeam(String name) {
         this.setChampionshipScore(0);
+        this.setName(name);
     }
 
     @Override

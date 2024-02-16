@@ -5,8 +5,9 @@ import teams.enums.WinState;
 
 public class VolleyTeam extends Team {
 
-    public VolleyTeam() {
+    public VolleyTeam(String name) {
         this.setChampionshipScore(0);
+        this.setName(name);
     }
 
     @Override

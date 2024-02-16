@@ -7,8 +7,9 @@ public class HandballTeam extends Team {
     public final static int winPoints = 2;
     public final static int drawPoints = 1;
 
-    public HandballTeam() {
+    public HandballTeam(String name) {
         this.setChampionshipScore(0);
+        this.setName(name);
     }
 
     @Override
