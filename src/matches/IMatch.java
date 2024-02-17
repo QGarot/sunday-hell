@@ -33,7 +33,7 @@ public interface IMatch {
     int getScoreB();
 
     /**
-     * Display teams information before and after the match
+     * Display current teams information
      */
     void displayInformation();
 }

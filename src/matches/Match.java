@@ -20,12 +20,6 @@ public class Match implements IMatch {
 
     @Override
     public void updateChampionshipScores() {
-        // check match validity
-        if (this.getTeamA().getClass() != this.getTeamB().getClass()) {
-            System.out.println("No compatibility");
-            return;
-        }
-
         // Update scores
         if (this.getScoreA() > this.getScoreB()) {
             this.getTeamA().updateChampionshipScore(WinState.WIN, this.getScoreA());
@@ -77,11 +71,6 @@ public class Match implements IMatch {
 
     @Override
     public void displayInformation() {
-        System.out.println(this.getTeamA().getName() + " / " + this.getTeamB().getName());
-        System.out.println(this.getTeamA().getName() + "'s points: " + this.getTeamA().getChampionshipScore());
-        System.out.println(this.getTeamB().getName() + "'s points: " + this.getTeamB().getChampionshipScore());
-        System.out.println("Update championship scores...");
-        this.updateChampionshipScores();
         System.out.println(this.getTeamA().getName() + "'s points: " + this.getTeamA().getChampionshipScore());
         System.out.println(this.getTeamB().getName() + "'s points: " + this.getTeamB().getChampionshipScore());
     }
