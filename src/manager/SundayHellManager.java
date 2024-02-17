@@ -5,18 +5,22 @@ import teams.Team;
 import teams.types.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class SundayHellManager implements Interaction {
     private final List<Team> teams;
     private final List<Match> matches;
+    private final HashMap<String, Class<? extends Team>> teamTypes;
     private final Scanner scanner;
 
     public SundayHellManager() {
         this.teams = new ArrayList<>();
         this.matches = new ArrayList<>();
-        this.scanner = new Scanner(System.in).useDelimiter("\n");
+        this.teamTypes = new HashMap<>();
+        this.scanner = new Scanner(System.in);
+        this.loadTeamTypes();
     }
 
     @Override
@@ -27,13 +31,16 @@ public class SundayHellManager implements Interaction {
             System.out.println("Name of the new team: ");
             String name = this.getScanner().nextLine();
 
-            switch (type) {
-                case "foot" -> this.getTeams().add(new FootballTeam(name));
-                case "futsal" -> this.getTeams().add(new FutsalTeam(name));
-                case "handball" -> this.getTeams().add(new HandballTeam(name));
-                case "rugby" -> this.getTeams().add(new RugbyTeam(name));
-                case "volley" -> this.getTeams().add(new VolleyTeam(name));
-                default -> System.out.println("Please choose one of these types: (foot, futsal, handball, rugby or volley)");
+            if (this.getTeamTypes().containsKey(type)) {
+                if (this.getTeamByName(name) == null) {
+                    Class<? extends Team> teamClass = this.getTeamTypes().get(type);
+                    this.getTeams().add(teamClass.getDeclaredConstructor(String.class).newInstance(name));
+                    System.out.println(name + "'s team added successfully!");
+                } else {
+                    System.out.println(name + "'s team already exists!");
+                }
+            } else {
+                System.out.println("Unknown team type!");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -57,7 +64,6 @@ public class SundayHellManager implements Interaction {
             int scoreB = this.getScanner().nextInt();
             this.getScanner().nextLine();
 
-
             // check validity
             Team teamA = this.getTeamByName(nameA);
             Team teamB = this.getTeamByName(nameB);
@@ -70,11 +76,23 @@ public class SundayHellManager implements Interaction {
                     System.out.println("This two teams can not face!");
                 }
             } else {
-                System.out.println("One of the team given is not registered!");
+                System.out.println("One of the given team is not registered!");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public HashMap<String, Class<? extends Team>> getTeamTypes() {
+        return this.teamTypes;
+    }
+
+    public void loadTeamTypes() {
+        this.getTeamTypes().put("foot", FootballTeam.class);
+        this.getTeamTypes().put("futsal", FutsalTeam.class);
+        this.getTeamTypes().put("handball", HandballTeam.class);
+        this.getTeamTypes().put("rugby", RugbyTeam.class);
+        this.getTeamTypes().put("volley", VolleyTeam.class);
     }
 
     public List<Match> getMatches() {
