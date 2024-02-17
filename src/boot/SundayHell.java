@@ -5,6 +5,7 @@ import teams.Team;
 import teams.types.*;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.*;
 
 public class SundayHell implements IBoot {
@@ -12,6 +13,7 @@ public class SundayHell implements IBoot {
     private final List<Match> matches;
     private final HashMap<String, Class<? extends Team>> teamTypes;
     private final Scanner scanner;
+    private static final String fileSeparator = ";";
 
     public SundayHell() {
         this.teams = new ArrayList<>();
@@ -23,10 +25,24 @@ public class SundayHell implements IBoot {
     }
 
     /**
+     * Save team in the teams file
+     * @param teamType:
+     * @param teamName:
+     */
+    private void saveTeam(String teamType, String teamName) {
+        try {
+            FileWriter teams = new FileWriter("files/teams", true);
+            teams.write(teamType + fileSeparator + teamName + "\n");
+            teams.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
      * Load all teams registered in teams file
      */
     private void loadTeams() {
-        String separator = ";";
         try {
             File teams = new File("files/teams");
             Scanner reader = new Scanner(teams);
@@ -38,8 +54,8 @@ public class SundayHell implements IBoot {
             while (reader.hasNextLine()) {
                 line = reader.nextLine();
                 // Required format: "team type;team name"
-                if (line.contains(separator)) {
-                    splitLine = line.split(separator);
+                if (line.contains(fileSeparator)) {
+                    splitLine = line.split(fileSeparator);
                     // Required format for splitLine : [team type, team name]
                     if (splitLine.length == 2) {
                         teamType = splitLine[0];
@@ -59,7 +75,8 @@ public class SundayHell implements IBoot {
                 }
             }
 
-            System.out.println("Teams loaded!");
+            System.out.println(this.getTeams().size() + " teams loaded!");
+            reader.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -82,6 +99,7 @@ public class SundayHell implements IBoot {
                 if (this.getTeamByName(name) == null) {
                     Class<? extends Team> teamClass = this.getTeamTypes().get(type);
                     this.getTeams().add(teamClass.getDeclaredConstructor(String.class).newInstance(name));
+                    this.saveTeam(type, name);
                     System.out.println(name + "'s team added successfully!");
                 } else {
                     System.out.println(name + "'s team already exists!");
