@@ -73,5 +73,6 @@ public class Match implements IMatch {
     public void displayInformation() {
         System.out.println(this.getTeamA().getName() + "'s points: " + this.getTeamA().getChampionshipScore());
         System.out.println(this.getTeamB().getName() + "'s points: " + this.getTeamB().getChampionshipScore());
+        System.out.println();
     }
 }

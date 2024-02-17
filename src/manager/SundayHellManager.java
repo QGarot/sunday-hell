@@ -26,11 +26,13 @@ public class SundayHellManager implements Interaction {
     @Override
     public void addNewTeam() {
         try {
+            // Get team data
             System.out.println("Type of the new team (foot, futsal, handball, rugby or volley): ");
             String type = this.getScanner().nextLine();
             System.out.println("Name of the new team: ");
             String name = this.getScanner().nextLine();
 
+            // If data are correct, add the team to the collection
             if (this.getTeamTypes().containsKey(type)) {
                 if (this.getTeamByName(name) == null) {
                     Class<? extends Team> teamClass = this.getTeamTypes().get(type);
@@ -50,27 +52,29 @@ public class SundayHellManager implements Interaction {
     @Override
     public void addNewMatch() {
         try {
-            // Team A
+            // Get team A data
             System.out.println("Name of the team A: ");
             String nameA = this.getScanner().nextLine();
             System.out.println("Score of the team A: ");
             int scoreA = this.getScanner().nextInt();
-            this.getScanner().nextLine();
+            this.getScanner().nextLine(); // \n
 
-            // Team B
+            // Get team B data
             System.out.println("Name of the team B: ");
             String nameB = this.getScanner().nextLine();
             System.out.println("Score of the team B: ");
             int scoreB = this.getScanner().nextInt();
-            this.getScanner().nextLine();
+            this.getScanner().nextLine(); // \n
 
-            // check validity
+            // Check validity
             Team teamA = this.getTeamByName(nameA);
             Team teamB = this.getTeamByName(nameB);
             if (teamB != null && teamA != null) {
                 if (teamA.getClass() == teamB.getClass()) {
+                    // Create match instance and update teams scores
                     Match match = new Match(teamA, teamB, scoreA, scoreB);
                     match.updateChampionshipScores();
+                    // Add it to the collection
                     this.getMatches().add(match);
                     System.out.println("New match added! Championship scores are updated!");
                 } else {
@@ -84,12 +88,51 @@ public class SundayHellManager implements Interaction {
         }
     }
 
+    /**
+     * Start interaction with user
+     */
+    public void run() {
+        boolean launched = true;
+
+        while (launched) {
+            System.out.println("What do you want to do? Please select the corresponding number : ");
+            System.out.println("1. Register a new team");
+            System.out.println("2. Register a new match");
+            System.out.println("3. Display information");
+            System.out.println("4. Exit");
+            String choice = this.getScanner().nextLine();
+
+            switch (choice) {
+                case "1" -> this.addNewTeam();
+                case "2" -> this.addNewMatch();
+                case "3" -> {
+                    for (Match match: this.getMatches()) {
+                        match.displayInformation();
+                    }
+                }
+                case "4" -> launched = false;
+                default -> System.out.println("Please choose 1, 2 or 3.");
+            }
+        }
+
+        this.stop();
+    }
+
+    /**
+     * End the program: close the scanner
+     */
+    public void stop() {
+        System.out.println("End of the program! Goodbye!");
+        this.getScanner().close();
+    }
+
     public HashMap<String, Class<? extends Team>> getTeamTypes() {
         return this.teamTypes;
     }
 
     /**
      * Load all team types
+     * Note: update it if a new team type is created
      */
     public void loadTeamTypes() {
         this.getTeamTypes().put("foot", FootballTeam.class);
