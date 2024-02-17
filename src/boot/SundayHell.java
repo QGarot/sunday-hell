@@ -22,17 +22,83 @@ public class SundayHell implements IBoot {
         this.scanner = new Scanner(System.in);
         this.loadTeamTypes();
         this.loadTeams();
+        this.loadMatches();
     }
 
     /**
-     * Save team in the teams file
-     * @param teamType:
-     * @param teamName:
+     * Save a new match in the matches file
+     * @param match:
+     */
+    private void saveMatch(Match match) {
+        try {
+            FileWriter matches = new FileWriter("files/matches", true);
+            matches.write(match.getTeamA().getName() + fileSeparator + match.getTeamB().getName() + fileSeparator + match.getScoreA() + fileSeparator + match.getScoreB() + "\n");
+            matches.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Load all matches registered in matches file
+     * Required format: "teamA;teamB;scoreA;scoreB"
+     */
+    private void loadMatches() {
+        try {
+            File matches = new File("files/matches");
+            Scanner reader = new Scanner(matches);
+            String line;
+            String[] splitLine;
+            String teamAName;
+            String teamBName;
+            int scoreA;
+            int scoreB;
+
+            while (reader.hasNextLine()) {
+                line = reader.nextLine();
+                // Required format: "teamA;teamB;scoreA;scoreB"
+                if (line.contains(fileSeparator)) {
+                    splitLine = line.split(fileSeparator);
+                    // Required format for splitLine : [teamA, teamB, scoreA, scoreB]
+                    if (splitLine.length == 4) {
+                        teamAName = splitLine[0];
+                        teamBName = splitLine[1];
+                        scoreA = Integer.parseInt(splitLine[2]);
+                        scoreB = Integer.parseInt(splitLine[3]);
+                        // Work with instances
+                        Team teamA = this.getTeamByName(teamAName);
+                        Team teamB = this.getTeamByName(teamBName);
+                        if (teamA != null && teamB != null) {
+                            this.getMatches().add(new Match(teamA, teamB, scoreA, scoreB));
+                        } else {
+                            //System.out.println("Match can not be loaded because one of the given team does not exist!");
+                        }
+                    } else {
+                        //System.out.println("Invalid format!");
+                    }
+                } else {
+                    //System.out.println("Invalid format!");
+                }
+            }
+
+            System.out.println(this.getMatches().size() + " matches loaded!");
+            reader.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Save a new team in the teams file
+     *
+     * @param teamType :
+     * @param teamName :
      */
     private void saveTeam(String teamType, String teamName) {
         try {
             FileWriter teams = new FileWriter("files/teams", true);
-            teams.write(teamType + fileSeparator + teamName + "\n");
+            teams.write(teamType + fileSeparator + teamName + fileSeparator + 0 + "\n");
             teams.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -41,6 +107,7 @@ public class SundayHell implements IBoot {
 
     /**
      * Load all teams registered in teams file
+     * Required format: "team type;team name;championship score"
      */
     private void loadTeams() {
         try {
@@ -50,19 +117,21 @@ public class SundayHell implements IBoot {
             String[] splitLine;
             String teamType;
             String teamName;
+            int championShipScore;
 
             while (reader.hasNextLine()) {
                 line = reader.nextLine();
-                // Required format: "team type;team name"
+                // Required format: "team type;team name;championship score"
                 if (line.contains(fileSeparator)) {
                     splitLine = line.split(fileSeparator);
-                    // Required format for splitLine : [team type, team name]
-                    if (splitLine.length == 2) {
+                    // Required format for splitLine : [team type, team name, championship score]
+                    if (splitLine.length == 3) {
                         teamType = splitLine[0];
                         teamName = splitLine[1];
+                        championShipScore = Integer.parseInt(splitLine[2]);
                         if (this.getTeamTypes().containsKey(teamType)) {
                             Class<? extends Team> teamClass = this.getTeamTypes().get(teamType);
-                            this.getTeams().add(teamClass.getDeclaredConstructor(String.class).newInstance(teamName));
+                            this.getTeams().add(teamClass.getDeclaredConstructor(String.class, int.class).newInstance(teamName, championShipScore));
                             //System.out.println(teamType + ": " + teamName + " is loaded!");
                         } else {
                             //System.out.println(teamType + ": " + teamName + " can not be loaded!");
@@ -141,7 +210,8 @@ public class SundayHell implements IBoot {
                     match.updateChampionshipScores();
                     // Add it to the collection
                     this.getMatches().add(match);
-                    System.out.println("New match added! Championship scores are updated!");
+                    this.saveMatch(match);
+                    System.out.println("New match added successfully! Championship scores are updated!");
                 } else {
                     System.out.println("This two teams can not face!");
                 }
@@ -161,7 +231,7 @@ public class SundayHell implements IBoot {
             System.out.println("What do you want to do? Please select the corresponding number : ");
             System.out.println("1. Register a new team");
             System.out.println("2. Register a new match");
-            System.out.println("3. Display information");
+            System.out.println("3. Display teams information");
             System.out.println("4. Exit");
             String choice = this.getScanner().nextLine();
 
@@ -169,8 +239,8 @@ public class SundayHell implements IBoot {
                 case "1" -> this.addNewTeam();
                 case "2" -> this.addNewMatch();
                 case "3" -> {
-                    for (Match match: this.getMatches()) {
-                        match.displayInformation();
+                    for (Team team: this.getTeams()) {
+                        System.out.println(team.getName() + ": " + team.getChampionshipScore() + " points");
                     }
                 }
                 case "4" -> launched = false;

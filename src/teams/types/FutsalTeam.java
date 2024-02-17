@@ -16,6 +16,11 @@ public class FutsalTeam extends Team implements IAttackBonus {
         this.setName(name);
     }
 
+    public FutsalTeam(String name, int championshipScore) {
+        this.setChampionshipScore(championshipScore);
+        this.setName(name);
+    }
+
     @Override
     public void updateChampionshipScore(WinState winState, int teamScore) {
         if (winState == WinState.WIN) {

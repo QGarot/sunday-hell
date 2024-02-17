@@ -12,6 +12,11 @@ public class HandballTeam extends Team {
         this.setName(name);
     }
 
+    public HandballTeam(String name, int championShipScore) {
+        this.setChampionshipScore(championShipScore);
+        this.setName(name);
+    }
+
     @Override
     public void updateChampionshipScore(WinState winState, int teamScore) {
         if (winState == WinState.WIN) {

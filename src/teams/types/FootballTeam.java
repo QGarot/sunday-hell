@@ -12,6 +12,11 @@ public class FootballTeam extends Team {
         this.setName(name);
     }
 
+    public FootballTeam(String name, int championshipScore) {
+        this.setChampionshipScore(championshipScore);
+        this.setName(name);
+    }
+
     @Override
     public void updateChampionshipScore(WinState winState, int teamScore) {
         if (winState == WinState.WIN) {

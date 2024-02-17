@@ -10,6 +10,11 @@ public class VolleyTeam extends Team {
         this.setName(name);
     }
 
+    public VolleyTeam(String name, int championShipScore) {
+        this.setChampionshipScore(championShipScore);
+        this.setName(name);
+    }
+
     @Override
     public void updateChampionshipScore(WinState winState, int teamScore) {
         this.setChampionshipScore(this.getChampionshipScore() + teamScore);

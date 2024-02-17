@@ -19,6 +19,11 @@ public class RugbyTeam extends Team implements IAttackBonus, IDefenseBonus {
         this.setName(name);
     }
 
+    public RugbyTeam(String name, int championShipScore) {
+        this.setChampionshipScore(championShipScore);
+        this.setName(name);
+    }
+
     @Override
     public void updateChampionshipScore(WinState winState, int teamScore) {
         if (winState == WinState.WIN) {
