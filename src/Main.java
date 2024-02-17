@@ -1,8 +1,9 @@
-import manager.SundayHellManager;
+import boot.IBoot;
+import boot.SundayHell;
 
 public class Main {
     public static void main(String[] args) {
-        SundayHellManager boot = new SundayHellManager();
+        IBoot boot = new SundayHell();
         boot.run();
     }
 }

@@ -1,4 +1,4 @@
-package manager;
+package boot;
 
 import matches.Match;
 import teams.Team;
@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-public class SundayHellManager implements Interaction {
+public class SundayHell implements IBoot {
     private final List<Team> teams;
     private final List<Match> matches;
     private final HashMap<String, Class<? extends Team>> teamTypes;
     private final Scanner scanner;
 
-    public SundayHellManager() {
+    public SundayHell() {
         this.teams = new ArrayList<>();
         this.matches = new ArrayList<>();
         this.teamTypes = new HashMap<>();
@@ -23,8 +23,10 @@ public class SundayHellManager implements Interaction {
         this.loadTeamTypes();
     }
 
-    @Override
-    public void addNewTeam() {
+    /**
+     * Allow the user to add a new team
+     */
+    private void addNewTeam() {
         try {
             // Get team data
             System.out.println("Type of the new team (foot, futsal, handball, rugby or volley): ");
@@ -49,8 +51,10 @@ public class SundayHellManager implements Interaction {
         }
     }
 
-    @Override
-    public void addNewMatch() {
+    /**
+     * Allow the user to register a new match (teams & scores)
+     */
+    private void addNewMatch() {
         try {
             // Get team A data
             System.out.println("Name of the team A: ");
@@ -88,9 +92,7 @@ public class SundayHellManager implements Interaction {
         }
     }
 
-    /**
-     * Start interaction with user
-     */
+    @Override
     public void run() {
         boolean launched = true;
 
@@ -118,15 +120,13 @@ public class SundayHellManager implements Interaction {
         this.stop();
     }
 
-    /**
-     * End the program: close the scanner
-     */
+    @Override
     public void stop() {
         System.out.println("End of the program! Goodbye!");
         this.getScanner().close();
     }
 
-    public HashMap<String, Class<? extends Team>> getTeamTypes() {
+    private HashMap<String, Class<? extends Team>> getTeamTypes() {
         return this.teamTypes;
     }
 
@@ -134,7 +134,7 @@ public class SundayHellManager implements Interaction {
      * Load all team types
      * Note: update it if a new team type is created
      */
-    public void loadTeamTypes() {
+    private void loadTeamTypes() {
         this.getTeamTypes().put("foot", FootballTeam.class);
         this.getTeamTypes().put("futsal", FutsalTeam.class);
         this.getTeamTypes().put("handball", HandballTeam.class);
@@ -142,15 +142,15 @@ public class SundayHellManager implements Interaction {
         this.getTeamTypes().put("volley", VolleyTeam.class);
     }
 
-    public List<Match> getMatches() {
+    private List<Match> getMatches() {
         return this.matches;
     }
 
-    public List<Team> getTeams() {
+    private List<Team> getTeams() {
         return this.teams;
     }
 
-    public Scanner getScanner() {
+    private Scanner getScanner() {
         return this.scanner;
     }
 
@@ -159,7 +159,7 @@ public class SundayHellManager implements Interaction {
      * @param name: name of the team searched
      * @return team with the given name. null if it was not found.
      */
-    public Team getTeamByName(String name) {
+    private Team getTeamByName(String name) {
         for (Team team: this.getTeams()) {
             if (team.getName().equals(name)) {
                 return team;
