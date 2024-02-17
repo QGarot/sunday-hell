@@ -185,6 +185,9 @@ public class SundayHell implements IBoot {
     public void stop() {
         System.out.println("End of the program! Goodbye!");
         this.getScanner().close();
+        this.getTeams().clear();
+        this.getMatches().clear();
+        this.getTeamTypes().clear();
     }
 
     private HashMap<String, Class<? extends Team>> getTeamTypes() {
