@@ -4,10 +4,8 @@ import matches.Match;
 import teams.Team;
 import teams.types.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.io.File;
+import java.util.*;
 
 public class SundayHell implements IBoot {
     private final List<Team> teams;
@@ -21,6 +19,51 @@ public class SundayHell implements IBoot {
         this.teamTypes = new HashMap<>();
         this.scanner = new Scanner(System.in);
         this.loadTeamTypes();
+        this.loadTeams();
+    }
+
+    /**
+     * Load all teams registered in teams file
+     */
+    private void loadTeams() {
+        String separator = ";";
+        try {
+            File teams = new File("files/teams");
+            Scanner reader = new Scanner(teams);
+            String line;
+            String[] splitLine;
+            String teamType;
+            String teamName;
+
+            while (reader.hasNextLine()) {
+                line = reader.nextLine();
+                // Required format: "team type;team name"
+                if (line.contains(separator)) {
+                    splitLine = line.split(separator);
+                    // Required format for splitLine : [team type, team name]
+                    if (splitLine.length == 2) {
+                        teamType = splitLine[0];
+                        teamName = splitLine[1];
+                        if (this.getTeamTypes().containsKey(teamType)) {
+                            Class<? extends Team> teamClass = this.getTeamTypes().get(teamType);
+                            this.getTeams().add(teamClass.getDeclaredConstructor(String.class).newInstance(teamName));
+                            //System.out.println(teamType + ": " + teamName + " is loaded!");
+                        } else {
+                            //System.out.println(teamType + ": " + teamName + " can not be loaded!");
+                        }
+                    } else {
+                        //System.out.println("Invalid format!");
+                    }
+                } else {
+                    //System.out.println("Invalid format!");
+                }
+            }
+
+            System.out.println("Teams loaded!");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
