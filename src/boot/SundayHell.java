@@ -4,8 +4,7 @@ import matches.Match;
 import teams.Team;
 import teams.types.*;
 
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.*;
 
 public class SundayHell implements IBoot {
@@ -26,10 +25,62 @@ public class SundayHell implements IBoot {
     }
 
     /**
+     * Save the given team data in the teams file.
+     */
+    private void saveTeam(Team team) {
+        try {
+            File teamsFile = new File("files/teams");
+            Scanner teamsFileReader = new Scanner(teamsFile);
+            StringBuilder newContent = new StringBuilder();
+
+            String line;
+            String[] splitLine;
+            String teamType;
+            String teamName;
+            int championShipScore;
+
+            while (teamsFileReader.hasNextLine()) {
+                line = teamsFileReader.nextLine();
+                // Required format: "team type;team name;championship score"
+                if (line.contains(fileSeparator)) {
+                    splitLine = line.split(fileSeparator);
+                    // Required format for splitLine : [team type, team name, championship score]
+                    if (splitLine.length == 3) {
+                        teamType = splitLine[0];
+                        teamName = splitLine[1];
+                        championShipScore = Integer.parseInt(splitLine[2]);
+                        if (teamName.equals(team.getName())) {
+                            championShipScore = team.getChampionshipScore();
+                        }
+                        newContent.append(teamType).
+                                append(fileSeparator).
+                                append(teamName).
+                                append(fileSeparator).
+                                append(championShipScore).
+                                append("\n");
+                    } else {
+                        //System.out.println("Invalid format!");
+                    }
+                } else {
+                    //System.out.println("Invalid format!");
+                }
+            }
+
+            FileWriter teamsFileWriter = new FileWriter(teamsFile);
+            teamsFileWriter.write(newContent.toString());
+
+            teamsFileWriter.close();
+            teamsFileReader.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
      * Save a new match in the matches file
      * @param match:
      */
-    private void saveMatch(Match match) {
+    private void registerMatch(Match match) {
         try {
             FileWriter matches = new FileWriter("files/matches", true);
             matches.write(match.getTeamA().getName() + fileSeparator + match.getTeamB().getName() + fileSeparator + match.getScoreA() + fileSeparator + match.getScoreB() + "\n");
@@ -95,7 +146,7 @@ public class SundayHell implements IBoot {
      * @param teamType :
      * @param teamName :
      */
-    private void saveTeam(String teamType, String teamName) {
+    private void registerTeam(String teamType, String teamName) {
         try {
             FileWriter teams = new FileWriter("files/teams", true);
             teams.write(teamType + fileSeparator + teamName + fileSeparator + 0 + "\n");
@@ -168,7 +219,7 @@ public class SundayHell implements IBoot {
                 if (this.getTeamByName(name) == null) {
                     Class<? extends Team> teamClass = this.getTeamTypes().get(type);
                     this.getTeams().add(teamClass.getDeclaredConstructor(String.class).newInstance(name));
-                    this.saveTeam(type, name);
+                    this.registerTeam(type, name);
                     System.out.println(name + "'s team added successfully!");
                 } else {
                     System.out.println(name + "'s team already exists!");
@@ -208,9 +259,12 @@ public class SundayHell implements IBoot {
                     // Create match instance and update teams scores
                     Match match = new Match(teamA, teamB, scoreA, scoreB);
                     match.updateChampionshipScores();
+                    // Save teams data
+                    saveTeam(teamA);
+                    saveTeam(teamB);
                     // Add it to the collection
                     this.getMatches().add(match);
-                    this.saveMatch(match);
+                    this.registerMatch(match);
                     System.out.println("New match added successfully! Championship scores are updated!");
                 } else {
                     System.out.println("This two teams can not face!");
