@@ -69,9 +69,10 @@ public class SundayHellManager implements Interaction {
             Team teamB = this.getTeamByName(nameB);
             if (teamB != null && teamA != null) {
                 if (teamA.getClass() == teamB.getClass()) {
-                    System.out.println("Debug: " + teamA.getClass());
-                    System.out.println("OK!");
-                    // TODO: create match and add it to the collection
+                    Match match = new Match(teamA, teamB, scoreA, scoreB);
+                    match.updateChampionshipScores();
+                    this.getMatches().add(match);
+                    System.out.println("New match added! Championship scores are updated!");
                 } else {
                     System.out.println("This two teams can not face!");
                 }
@@ -87,6 +88,9 @@ public class SundayHellManager implements Interaction {
         return this.teamTypes;
     }
 
+    /**
+     * Load all team types
+     */
     public void loadTeamTypes() {
         this.getTeamTypes().put("foot", FootballTeam.class);
         this.getTeamTypes().put("futsal", FutsalTeam.class);
@@ -107,6 +111,11 @@ public class SundayHellManager implements Interaction {
         return this.scanner;
     }
 
+    /**
+     * Get a team by its name
+     * @param name: name of the team searched
+     * @return team with the given name. null if it was not found.
+     */
     public Team getTeamByName(String name) {
         for (Team team: this.getTeams()) {
             if (team.getName().equals(name)) {
