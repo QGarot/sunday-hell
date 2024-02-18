@@ -3,12 +3,12 @@ package boot;
 public interface IBoot {
 
     /**
-     * Start the interactive program
+     * Start the interactive programm
      */
     void run();
 
     /**
-     * Exit the program
+     * Exit the programm
      */
     void stop();
 }
