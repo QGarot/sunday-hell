@@ -7,11 +7,15 @@ public class VolleyTeam extends Team {
 
     public VolleyTeam(String name) {
         this.setChampionshipScore(0);
+        this.setNbMatches(0);
+        this.setAverage(0);
         this.setName(name);
     }
 
-    public VolleyTeam(String name, int championShipScore) {
+    public VolleyTeam(String name, int championShipScore, int nbMatches, float average) {
         this.setChampionshipScore(championShipScore);
+        this.setNbMatches(nbMatches);
+        this.setAverage(average);
         this.setName(name);
     }
 

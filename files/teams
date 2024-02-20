@@ -1,10 +1,2 @@
-foot;fA;4
-foot;fB;1
-rugby;rA;7
-rugby;rB;2
-volley;vA;6
-volley;vB;4
-handball;hA;3
-handball;hB;1
-futsal;fsA;6
-futsal;fsB;2
+foot;f1;3;1;2.0
+foot;f2;0;1;-2.0

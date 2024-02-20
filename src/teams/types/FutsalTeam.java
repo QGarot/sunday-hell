@@ -13,11 +13,15 @@ public class FutsalTeam extends Team implements IAttackBonus {
 
     public FutsalTeam(String name) {
         this.setChampionshipScore(0);
+        this.setNbMatches(0);
+        this.setAverage(0);
         this.setName(name);
     }
 
-    public FutsalTeam(String name, int championshipScore) {
+    public FutsalTeam(String name, int championshipScore, int nbMatches, float average) {
         this.setChampionshipScore(championshipScore);
+        this.setNbMatches(nbMatches);
+        this.setAverage(average);
         this.setName(name);
     }
 

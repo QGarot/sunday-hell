@@ -6,6 +6,8 @@ public abstract class Team {
 
     private int championshipScore;
     private String name;
+    private int nbMatches;
+    private float average;
 
     /**
      * Update the championship score according to the win state and the type of the team.
@@ -44,5 +46,37 @@ public abstract class Team {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Get the number of played matches
+     * @return nbMatches: number of played matches
+     */
+    public int getNbMatches() {
+        return this.nbMatches;
+    }
+
+    /**
+     * Set a new number of matches
+     * @param n: the value to set
+     */
+    public void setNbMatches(int n) {
+        this.nbMatches = n;
+    }
+
+    /**
+     * Get the average of points
+     * @return average:
+     */
+    public float getAverage() {
+        return this.average;
+    }
+
+    /**
+     * Set a new average
+     * @param average: the value to set
+     */
+    public void setAverage(float average) {
+        this.average = average;
     }
 }

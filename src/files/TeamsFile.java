@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.lang.Float;
 
 public class TeamsFile extends File {
 
@@ -32,20 +33,26 @@ public class TeamsFile extends File {
             String teamType;
             String teamName;
             int championShipScore;
+            int nbMatches;
+            float average;
 
             while (reader.hasNextLine()) {
                 line = reader.nextLine();
-                // Required format: "team type;team name;championship score"
+                // Required format: "team type;team name;championship score;nbMatches;average"
                 if (line.contains(fileSeparator)) {
                     splitLine = line.split(fileSeparator);
-                    // Required format for splitLine : [team type, team name, championship score]
-                    if (splitLine.length == 3) {
+                    // Required format for splitLine : [team type, team name, championship score, nbMatches, average]
+                    if (splitLine.length == 5) {
                         teamType = splitLine[0];
                         teamName = splitLine[1];
                         championShipScore = Integer.parseInt(splitLine[2]);
+                        nbMatches = Integer.parseInt(splitLine[3]);
+                        average = Float.parseFloat(splitLine[4]);
                         // Update the score
                         if (teamName.equals(team.getName())) {
                             championShipScore = team.getChampionshipScore();
+                            nbMatches = team.getNbMatches();
+                            average = team.getAverage();
                             edited = true;
                         }
                         newContent.append(teamType).
@@ -53,6 +60,10 @@ public class TeamsFile extends File {
                                 append(teamName).
                                 append(fileSeparator).
                                 append(championShipScore).
+                                append(fileSeparator).
+                                append(nbMatches).
+                                append(fileSeparator).
+                                append(average).
                                 append("\n");
                     } else {
                         //System.out.println("Invalid format!");
@@ -84,7 +95,7 @@ public class TeamsFile extends File {
     public void registerTeam(String teamType, String teamName) {
         try {
             FileWriter writer = new FileWriter(this, true);
-            writer.write(teamType + fileSeparator + teamName + fileSeparator + 0 + "\n");
+            writer.write(teamType + fileSeparator + teamName + fileSeparator + 0 + fileSeparator + 0 + fileSeparator + 0f + "\n");
             writer.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -108,20 +119,24 @@ public class TeamsFile extends File {
             String teamType;
             String teamName;
             int championShipScore;
+            int nbMatches;
+            float average;
 
             while (reader.hasNextLine()) {
                 line = reader.nextLine();
-                // Required format: "team type;team name;championship score"
+                // Required format: "team type;team name;championship score;nbMatches;average"
                 if (line.contains(fileSeparator)) {
                     splitLine = line.split(fileSeparator);
-                    // Required format for splitLine : [team type, team name, championship score]
-                    if (splitLine.length == 3) {
+                    // Required format for splitLine : [team type, team name, championship score, nbMatches, average]
+                    if (splitLine.length == 5) {
                         teamType = splitLine[0];
                         teamName = splitLine[1];
                         championShipScore = Integer.parseInt(splitLine[2]);
+                        nbMatches = Integer.parseInt(splitLine[3]);
+                        average = Float.parseFloat(splitLine[4]);
                         if (types.containsKey(teamType)) {
                             Class<? extends Team> teamClass = types.get(teamType);
-                            teams.add(teamClass.getDeclaredConstructor(String.class, int.class).newInstance(teamName, championShipScore));
+                            teams.add(teamClass.getDeclaredConstructor(String.class, int.class, int.class, float.class).newInstance(teamName, championShipScore, nbMatches, average));
                             //System.out.println(teamType + ": " + teamName + " is loaded!");
                         } else {
                             //System.out.println(teamType + ": " + teamName + " can not be loaded!");

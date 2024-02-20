@@ -18,6 +18,30 @@ public class Match implements IMatch {
         this.scoreB = scoreB;
     }
 
+    /**
+     * Update the number of matches of each teams
+     */
+    public void updateNbMatches() {
+        this.getTeamA().setNbMatches(this.getTeamA().getNbMatches() + 1);
+        this.getTeamB().setNbMatches(this.getTeamB().getNbMatches() + 1);
+    }
+
+    /**
+     * Update the averages of matches of each teams
+     */
+    public void updateAverages() {
+        this.updateNbMatches();
+        int n;
+
+        // team A
+        n = this.getTeamA().getNbMatches();
+        this.getTeamA().setAverage((1.0f / n) * (this.getScoreA() - this.getScoreB() + (n - 1) * this.getTeamA().getAverage()));
+
+        // team B
+        n = this.getTeamB().getNbMatches();
+        this.getTeamB().setAverage((1.0f / n) * (this.getScoreB() - this.getScoreA() + (n - 1) * this.getTeamB().getAverage()));
+    }
+
     @Override
     public void updateChampionshipScores() {
         // Update scores

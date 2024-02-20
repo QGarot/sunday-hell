@@ -125,6 +125,7 @@ public class SundayHell implements IBoot {
                 if (teamA.getClass() == teamB.getClass()) {
                     Match match = new Match(teamA, teamB, scoreA, scoreB);
                     match.updateChampionshipScores();
+                    match.updateAverages();
                     // Save teams data
                     this.getTeamsFile().saveTeam(teamA);
                     this.getTeamsFile().saveTeam(teamB);
@@ -159,7 +160,7 @@ public class SundayHell implements IBoot {
                 case "2" -> this.addNewMatch();
                 case "3" -> {
                     for (Team team: this.getTeams()) {
-                        System.out.println(team.getName() + ": " + team.getChampionshipScore() + " points");
+                        System.out.println(team.getName() + ": " + team.getChampionshipScore() + " points, " + team.getAverage() + " (average)");
                     }
                 }
                 case "4" -> launched = false;

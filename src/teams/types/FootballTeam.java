@@ -9,11 +9,15 @@ public class FootballTeam extends Team {
 
     public FootballTeam(String name) {
         this.setChampionshipScore(0);
+        this.setNbMatches(0);
+        this.setAverage(0);
         this.setName(name);
     }
 
-    public FootballTeam(String name, int championshipScore) {
+    public FootballTeam(String name, int championshipScore, int nbMatches, float average) {
         this.setChampionshipScore(championshipScore);
+        this.setNbMatches(nbMatches);
+        this.setAverage(average);
         this.setName(name);
     }
 

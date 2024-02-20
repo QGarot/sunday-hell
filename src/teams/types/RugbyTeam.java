@@ -16,11 +16,15 @@ public class RugbyTeam extends Team implements IAttackBonus, IDefenseBonus {
 
     public RugbyTeam(String name) {
         this.setChampionshipScore(0);
+        this.setNbMatches(0);
+        this.setAverage(0);
         this.setName(name);
     }
 
-    public RugbyTeam(String name, int championShipScore) {
+    public RugbyTeam(String name, int championShipScore, int nbMatches, float average) {
         this.setChampionshipScore(championShipScore);
+        this.setNbMatches(nbMatches);
+        this.setAverage(average);
         this.setName(name);
     }
 
