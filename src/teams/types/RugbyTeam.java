@@ -6,8 +6,8 @@ import teams.interfaces.IAttackBonus;
 import teams.interfaces.IDefenseBonus;
 
 public class RugbyTeam extends Team implements IAttackBonus, IDefenseBonus {
-    public final static int winPoints = 3;
-    public final static int drawPoints = 1;
+    private final static int winPoints = 3;
+    private final static int drawPoints = 1;
     // Bonus
     private final static int attackBonus = 1;
     private final static int defenseBonus = 1;
@@ -21,8 +21,8 @@ public class RugbyTeam extends Team implements IAttackBonus, IDefenseBonus {
         this.setName(name);
     }
 
-    public RugbyTeam(String name, int championShipScore, int nbMatches, float average) {
-        this.setChampionshipScore(championShipScore);
+    public RugbyTeam(String name, int championshipScore, int nbMatches, float average) {
+        this.setChampionshipScore(championshipScore);
         this.setNbMatches(nbMatches);
         this.setAverage(average);
         this.setName(name);

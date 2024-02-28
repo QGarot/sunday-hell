@@ -4,8 +4,8 @@ import teams.Team;
 import teams.enums.WinState;
 
 public class HandballTeam extends Team {
-    public final static int winPoints = 2;
-    public final static int drawPoints = 1;
+    private final static int winPoints = 2;
+    private final static int drawPoints = 1;
 
     public HandballTeam(String name) {
         this.setChampionshipScore(0);
@@ -14,8 +14,8 @@ public class HandballTeam extends Team {
         this.setName(name);
     }
 
-    public HandballTeam(String name, int championShipScore, int nbMatches, float average) {
-        this.setChampionshipScore(championShipScore);
+    public HandballTeam(String name, int championshipScore, int nbMatches, float average) {
+        this.setChampionshipScore(championshipScore);
         this.setNbMatches(nbMatches);
         this.setAverage(average);
         this.setName(name);
